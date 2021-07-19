@@ -1,10 +1,10 @@
 // CRUD create read update delete
-
-const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient
+const { MongoClient, ObjectID } = require('mongodb')
 
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
+const id = new ObjectID()
+console.log(id.getTimestamp())
 
 MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
     if (error) {
@@ -13,34 +13,7 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
 
     const db = client.db(databaseName)
 
-    // db.collection('users').insertOne({
-    //     name: 'Islam',
-    //     age: 29,
-    // }, (error, result) => {
-    //     if(error) {
-    //         return console.log('Unable to insert user!')
-    //     }
+    db.collection('tasks').findOne({ _id: new ObjectID('60f371a3c56f0513f507c2c3') }, (error, task) => console.log(error ? error : task))
+    db.collection('tasks').find({ completed: false }).toArray((error, tasks) => console.log(error ? error : tasks))
 
-    //     console.log(result.ops)
-    // })
-
-    db.collection('tasks').insertMany([
-        {
-            description: 'Walk an hour before sleep',
-            completed: false,
-        },
-        {
-            description: 'Write an article',
-            completed: true,
-        },
-        {
-            description: 'Buy milk',
-            completed: false,
-        }
-    ], (error, result) => {
-        if (error) {
-            return console.log('Unable to insert tasks!')
-        }
-        console.log(result.ops)
-    })
 })
