@@ -13,7 +13,14 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
 
     const db = client.db(databaseName)
 
-    db.collection('tasks').findOne({ _id: new ObjectID('60f371a3c56f0513f507c2c3') }, (error, task) => console.log(error ? error : task))
-    db.collection('tasks').find({ completed: false }).toArray((error, tasks) => console.log(error ? error : tasks))
-
+    const p = db.collection('tasks').updateMany({
+        completed: false
+    }, {
+        $set: {
+            completed: true
+        }
+    })
+    p
+        .then(result => console.log(result))
+        .catch(error => console.log(error))
 })
