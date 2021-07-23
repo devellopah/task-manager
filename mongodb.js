@@ -13,14 +13,8 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
 
     const db = client.db(databaseName)
 
-    const p = db.collection('tasks').updateMany({
-        completed: false
-    }, {
-        $set: {
-            completed: true
-        }
-    })
-    p
+    db.collection('tasks')
+        .deleteOne({ description: 'Buy milk' })
         .then(result => console.log(result))
         .catch(error => console.log(error))
 })
