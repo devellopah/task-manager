@@ -61,6 +61,18 @@ app.patch('/users/:id', async (req, res) => {
   }
 })
 
+app.delete('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id)
+    if (!user) {
+      return res.status(404).send()
+    }
+    res.send(`You have just deleted user: ${user.name}`)
+  } catch(err) {
+    res.status(400).send(err)
+  }
+})
+
 app.post('/tasks', async (req, res) => {
   try {
     const task = new Task(req.body)
