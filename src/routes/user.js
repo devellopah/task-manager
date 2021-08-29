@@ -51,6 +51,26 @@ router.post('/users/login', async (req, res) => {
   }
 })
 
+router.post('/users/logout', auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter(item => item.token !== req.token)
+    await req.user.save()
+    res.send()
+  } catch (err) {
+    res.status(500).send()
+  }
+})
+
+router.post('/users/logoutAll', auth, async (req, res) => {
+  try {
+    req.user.tokens = []
+    await req.user.save()
+    res.send()
+  } catch (err) {
+    res.status(500).send()
+  }
+})
+
 router.patch('/users/:id', async (req, res) => {
   const updates = Object.keys(req.body)
   const allowedForUpdate = ['name', 'email', 'password', 'age']
