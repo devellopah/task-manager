@@ -8,8 +8,8 @@ router.post('/tasks', async (req, res) => {
     const task = new Task(req.body)
     await task.save()
     res.status(201).send(task)
-  } catch (err) {
-    res.status(400).send(err)
+  } catch (e) {
+    res.status(400).send(e)
   }
 })
 
