@@ -4,7 +4,16 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 
 const upload = multer({
-  dest: 'images/avatars'
+  dest: 'images/avatars',
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter(_, file, cb) {
+    if(!file.originalname.match(/\.(jpg|jpeg|png|webp)$/)) {
+      return cb(new Error('Unsupported image extension used. Should be one of: jpg, jpeg, png, webp'))
+    }
+    cb(undefined, true)
+  }
 })
 
 const router = new express.Router
