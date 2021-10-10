@@ -4,14 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "serve": "nodemon src/index.js"
+    "start": "env-cmd -f ./config/dev.env node src/index.js",
+    "serve": "env-cmd -f ./config/dev.env nodemon src/index.js",
+    "test": "env-cmd -f ./config/test.env jest --watch"
+  },
+  "jest": {
+    "testEnviroment": "node"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.1.10",
@@ -21,6 +26,7 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {
+    "jest": "^27.2.4",
     "nodemon": "^2.0.12"
   }
 }
